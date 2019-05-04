@@ -1,0 +1,44 @@
+﻿//VARIABLES 
+
+//variables media query
+$breakpoint-xs: 360px;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+.card-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.form-group label>i {
+    font-style: normal;
+    padding-left: .25em;
+    font-family: serif;
+}
+
+td.item-action {
+    max-width: 6.5rem;
+    min-width: 6.5rem;
+    vertical-align: middle;
+
+    @media screen and (min-width: $breakpoint-lg) {
+        max-width: 5rem;
+        min-width: 5rem;
+    }
+}
+
+.item-action .btn-sm, .btn-group-sm > .btn {
+    padding: .15rem .4rem;
+    border: none;
+}
+
+.button-text {
+    display: none;
+    @media screen and (min-width: $breakpoint-sm){
+        display: inline;
+    }
+}
+
