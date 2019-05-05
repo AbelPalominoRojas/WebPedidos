@@ -25,13 +25,13 @@
                             <tbody>
                                 <tr v-for="prod in productos" :key="prod.Idproducto">
                                     <td class="item-action" width="100">
-                                        <button type="button" @click="itemAction(prod,'show-item')" class="btn btn-sm btn-outline-info">
+                                        <button type="button" @click="itemAction(prod,itemTypeAction.show)" class="btn btn-sm btn-outline-info">
                                             <i class="fas fa-search-plus"></i>
                                         </button>
-                                        <button type="button" @click="itemAction(prod,'edit-item')" class="btn btn-sm btn-outline-primary">
+                                        <button type="button" @click="itemAction(prod,itemTypeAction.edit)" class="btn btn-sm btn-outline-primary">
                                             <i class="fas fa-marker"></i>
                                         </button>
-                                        <button type="button" @click="itemAction(prod,'delete-item')" class="btn btn-sm btn-outline-danger">
+                                        <button type="button" @click="itemAction(prod,itemTypeAction.delete)" class="btn btn-sm btn-outline-danger">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </td>
@@ -110,7 +110,8 @@ export default {
             isUpdate:false,
             titleForm:'',
             errors:[],
-            isOpenModal:false
+            isOpenModal:false,
+            itemTypeAction:itemTypeAction
         }
     },
     filters:{
@@ -151,15 +152,15 @@ export default {
         },
         itemAction(item,type){
             switch (type) {
-                case 'show-item':
+                case itemTypeAction.show:
                     
                     break;
             
-                case 'edit-item':
+                case itemTypeAction.edit:
                     this.edit(item);
                     break;
 
-                case 'delete-item':
+                case itemTypeAction.delete:
                     this.removeData(item);
                     break;
             }

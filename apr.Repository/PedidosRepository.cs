@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Transactions;
 
 namespace apr.Repository
 {
@@ -13,22 +14,56 @@ namespace apr.Repository
         {
             bool result = false;
 
-            string sqlQuery = "dbo.USP_pedidos_Insert";
-
-            using (SqlConnection sqlConnection = new SqlConnection(ConnectionDB.getConnectionStrings()))
+            using (TransactionScope transactionScope = new TransactionScope())
             {
-                using (SqlCommand sqlCommand = new SqlCommand(sqlQuery, sqlConnection))
+                //Insert header (Pedido)
+                string sqlQuery = "dbo.USP_pedidos_Insert";
+
+                using (SqlConnection sqlConnection = new SqlConnection(ConnectionDB.getConnectionStrings()))
                 {
-                    sqlConnection.Open();
-                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    using (SqlCommand sqlCommand = new SqlCommand(sqlQuery, sqlConnection))
+                    {
+                        sqlConnection.Open();
+                        sqlCommand.CommandType = CommandType.StoredProcedure;
 
-                    sqlCommand.Parameters.Add("@idpedido", SqlDbType.Int).Direction = ParameterDirection.Output;
-                    sqlCommand.Parameters.AddWithValue("@idcliente", pedidos.Idcliente);
-                    sqlCommand.Parameters.AddWithValue("@fecha", pedidos.Fecha);
+                        sqlCommand.Parameters.Add("@idpedido", SqlDbType.Int).Direction = ParameterDirection.Output;
+                        sqlCommand.Parameters.AddWithValue("@idcliente", pedidos.Idcliente);
+                        sqlCommand.Parameters.AddWithValue("@fecha", pedidos.Fecha);
 
-                    result = Convert.ToBoolean(sqlCommand.ExecuteNonQuery());
+                        sqlCommand.ExecuteNonQuery();
+
+                        pedidos.Idpedido = Convert.ToInt32(sqlCommand.Parameters["@idpedido"].Value);
+
+                    }
                 }
+
+                //Insert Detail (DetallePedidos)
+                foreach (var item in pedidos.detallePedidos)
+                {
+                    sqlQuery = "dbo.USP_detalle_pedidos_Insert";
+
+                    using (SqlConnection sqlConnection = new SqlConnection(ConnectionDB.getConnectionStrings()))
+                    {
+                        using (SqlCommand sqlCommand = new SqlCommand(sqlQuery, sqlConnection))
+                        {
+                            sqlConnection.Open();
+                            sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                            sqlCommand.Parameters.AddWithValue("@idpedido", pedidos.Idpedido);
+                            sqlCommand.Parameters.AddWithValue("@idproducto", item.Idproducto);
+                            sqlCommand.Parameters.AddWithValue("@precio", item.Precio);
+                            sqlCommand.Parameters.AddWithValue("@cantidad", item.Cantidad);
+
+                            result = Convert.ToBoolean(sqlCommand.ExecuteNonQuery());
+                        }
+                    }
+                }
+
+                transactionScope.Complete();
+                result = true;
             }
+
+
 
             return result;
         }
@@ -112,7 +147,7 @@ namespace apr.Repository
                                 resultPedidos.Idcliente = sqlDataReader.GetInt32(idcliente_index);
                                 cliente.Idcliente = resultPedidos.Idcliente;
                             }
-                                
+
 
                             int fecha_index = sqlDataReader.GetOrdinal("fecha");
                             if (!sqlDataReader.IsDBNull(fecha_index))

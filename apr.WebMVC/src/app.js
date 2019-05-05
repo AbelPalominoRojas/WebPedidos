@@ -1,16 +1,24 @@
 ﻿import './scss/app.scss';
 
-var rooturl = window.location.origin;
-window.rooturl = rooturl;
-
-import Vue from 'vue';
-window.Vue = Vue;
+window.rooturl = window.location.origin;
 
 window.Popper = require('popper.js');
 window.$ = window.jQuery = require('jquery');
 require('bootstrap');
 
 window.axios = require('axios');
+
+window.itemTypeAction = {
+        show:'show-item',
+        edit:'edit-item',
+        delete:'delete-item'
+    };
+
+    
+
+import Vue from 'vue';
+window.Vue = Vue;
+
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('categoria-component', require('./components/categoria/CategoriaComponent.vue').default);

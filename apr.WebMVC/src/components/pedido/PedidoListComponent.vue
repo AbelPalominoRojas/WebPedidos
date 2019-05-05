@@ -53,21 +53,22 @@ export default {
     data(){
         return {
             urlCreate:`${rooturl}/Pedido/Create/`,
+            itemTypeAction:itemTypeAction,
             pedidos:[]
         }
     },
     methods:{
         itemAction(item,type){
             switch (type) {
-                case 'show-item':
+                case itemTypeAction.show:
                     
                     break;
             
-                case 'edit-item':
+                case itemTypeAction.edit:
                     
                     break;
                 
-                case 'delete-item':
+                case itemTypeAction.delete:
                     
                     break;
             }

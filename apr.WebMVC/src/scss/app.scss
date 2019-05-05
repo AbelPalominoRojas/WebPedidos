@@ -42,3 +42,124 @@ td.item-action {
     }
 }
 
+
+//vue-date-pick
+.vdpComponent {
+    width: 100%;
+}
+
+.vdpComponent>input {
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    background-color: #fff;
+    border: 1px solid #bdc3c9;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.vdpComponent.vdpComponent-sm>input {
+    padding: .25rem .5rem;
+    font-size: .76563rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+    min-height: 20px;
+}
+
+//v-select 
+.v-select .dropdown-toggle::after {
+    border-top: 0;
+    margin-left: auto;
+}
+
+.v-select.v-select-md .dropdown-toggle,
+.v-select.v-select-sm .dropdown-toggle {
+    padding: 0;
+}
+
+.v-select.v-select-sm.open .dropdown-toggle {
+    padding: 0;
+}
+
+.v-select.v-select-md input[type=search],
+.v-select.v-select-md input[type=search]:focus,
+.v-select.v-select-sm input[type=search],
+.v-select.v-select-sm input[type=search]:focus {
+    margin: 0;
+}
+
+.v-select.v-select-sm.opens .selected-tag,
+.v-select.v-select-sm.open input[type=search],
+.v-select.v-select-sm.open input[type=search]:focus {
+    margin-top: 0;
+}
+
+.v-select.v-select-md .form-control {
+    min-height: 36px;
+}
+
+.v-select.v-select-md .dropdown-toggle .clear {
+    font-size: 22px;
+    padding-top: 5px;
+}
+
+.v-select.v-select-sm .form-control {
+
+    padding: .2rem .5rem;
+    font-size: .76563rem;
+    line-height: 1.5;
+    min-height: 20px;
+}
+
+.v-select.v-select-sm .vs__actions {
+    padding-right: 0;
+}
+
+
+
+.v-select.v-select-sm .dropdown-toggle .clear {
+    font-size: 18px;
+    padding-top: 3px;
+}
+
+
+
+.v-select.v-select-sm .open-indicator:before {
+    width: 8px;
+    height: 8px;
+}
+
+.v-select.v-select-sm .selected-tag {
+    margin-top: 0;
+}
+
+.v-select .selected-tag {
+    font-weight: 400;
+}
+
+.v-select .dropdown-menu li>a {
+    white-space: normal;
+}
+
+.v-select-item-group {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.v-select-item-info {
+    display: block;
+    padding-right: 1.5rem;
+}
+
+.v-select-text-primary {
+    font-size: 1.1rem;
+    margin-bottom: .3rem;
+    font-weight: 400;
+}
+
+.v-select-text-secondary {
+    font-size: .8rem;
+    font-weight: 400;
+    opacity: .75;
+}

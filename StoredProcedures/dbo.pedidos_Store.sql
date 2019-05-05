@@ -20,6 +20,8 @@ values
 @idcliente,
 @fecha
 )
+
+set @idpedido = @@IDENTITY
 Go
 
 IF OBJECT_ID('dbo.USP_pedidos_Update', 'P') IS NOT NULL

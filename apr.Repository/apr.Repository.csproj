@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -33,6 +33,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,7 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CategoriasRepository.cs" /><Compile Include="ClientesRepository.cs" /><Compile Include="DetallePedidosRepository.cs" /><Compile Include="PedidosRepository.cs" /><Compile Include="ProductosRepository.cs" /><Compile Include="ConnectionDB.cs" />   
+    <Compile Include="CategoriasRepository.cs" />
+    <Compile Include="ClientesRepository.cs" />
+    <Compile Include="DetallePedidosRepository.cs" />
+    <Compile Include="PedidosRepository.cs" />
+    <Compile Include="ProductosRepository.cs" />
+    <Compile Include="ConnectionDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

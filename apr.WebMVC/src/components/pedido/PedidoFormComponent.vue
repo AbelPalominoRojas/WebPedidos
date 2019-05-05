@@ -48,7 +48,9 @@
                         </div>
                     </div>
                     <hr>
-                    <div class="form-group">
+                    <div class="form-row">
+
+                    <div class="form-group col-sm-8">
                         <label>Cliente</label>
                         <select class="form-control" v-model="idcliente">
                             <option value="0">-Seleccionar-</option>
@@ -58,6 +60,13 @@
                                     <span v-text="cli.Apellidos"></span>
                                 </option>
                         </select>
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label>Fecha</label>
+                         <date-pick v-model="fecha" :format="'DD-MM-YYYY'" 
+                                    :inputAttributes="{readonly: true}">
+                        </date-pick>
+                    </div>
                     </div>
                     <hr>
                     <div class="table-responsive">
@@ -74,7 +83,8 @@
                             <tbody>
                                 <tr v-for="(det, index) in detallePedidos" :key="index">
                                     <td>
-                                        <button class="btn btn-sm btn-outline-danger border-0 py-1 px-2">
+                                        <button class="btn btn-sm btn-outline-danger border-0 py-1 px-2"
+                                                @click="removeItemDetalle(det,index)">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </td>
@@ -89,6 +99,16 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <div class="form-row d-flex align-items-center justify-content-end">
+                        <div class="form-group col-5 col-sm-5 col-lg-2 text-right mb-0">
+                            <span class="font-weight-bold">Total:</span>
+                        </div>
+                        <div class="form-group col-7 col-sm-4 col-lg-2 mb-0">
+                            <span class="form-control font-weight-bold" v-text="total"></span>
+                        </div>
+                    </div>
+
                     <hr/>
                     <div class="justify-content-between" style="display: flex;">
                         <div>
@@ -97,7 +117,7 @@
                             </a>
                         </div>
                         <div>
-                            <button type="button" class="btn btn-success">
+                            <button type="button" class="btn btn-success" @click="saveData()">
                                 <i class="fa fa-save"></i>
                                 Guardar
                             </button>
@@ -112,6 +132,12 @@
     </div>
 </template>
 <script>
+    import DatePick from 'vue-date-pick';
+    Vue.component( 'date-pick', DatePick );
+    import 'vue-date-pick/dist/vueDatePick.css';
+
+    import moment from 'moment';
+
 export default {
   data(){
       return{
@@ -120,6 +146,7 @@ export default {
           productos:[],
           idcategoria:0,
           idcliente:0,
+          fecha:this.formatDate(new Date()),
           producto:this.initializeProducto(),
           cantidad:0,
           detallePedidos:[],
@@ -194,6 +221,48 @@ export default {
         this.producto = this.initializeProducto();
         this.cantidad = 0;
       },
+      saveData(){
+        if(this.detallePedidos.length == 0){
+            alert('El pedido no tiene detalle');
+            return;
+        }
+        
+        if(this.idcliente == 0){
+            alert('Seleccione un cliente');
+            return;
+        }
+
+        let me= this;
+        let pedido = {
+                Idcliente:this.idcliente,
+                Fecha:this.fecha,
+                detallePedidos:this.detallePedidos
+            };
+
+        axios.post(`${rooturl}/Pedido/create`,pedido)
+            .then((response)=>{
+
+                let result = response.data;
+
+                if(result.State){
+                    window.location.href= me.urlList;
+                }
+
+                alert(result.Message);
+            })
+            .catch((error)=>{
+
+            });
+
+      },
+      removeItemDetalle(item,index){
+        let option = confirm(`Desea Eliminar el Producto ${item.producto.Nombre} ${item.producto.Presentacion}`);
+
+        if(!option) return;
+
+        this.detallePedidos.splice(index,1);
+
+      },
       initializeProducto(){
           return {
               Idproducto:0,
@@ -202,6 +271,20 @@ export default {
               Presentacion:'',
               Precio:0
           }
+      },
+      formatDate(value,fmt='DD-MM-YYYY'){
+          return (value == null)?'':moment(value,'YYYY-MM-DD').format(fmt);
+      }
+  },
+  computed:{
+      total(){
+          let valtotal =0;
+
+          this.detallePedidos.forEach((item)=>{
+              valtotal += item.importe;
+          });
+
+          return valtotal;
       }
   },
   mounted(){

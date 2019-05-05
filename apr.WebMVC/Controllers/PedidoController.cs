@@ -7,6 +7,7 @@ using apr.Entities;
 using apr.Business;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using apr.WebMVC.Models;
 
 namespace apr.WebMVC.Controllers
 {
@@ -38,5 +39,28 @@ namespace apr.WebMVC.Controllers
 
             return Json(pedidos, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public JsonResult create(Pedidos pedido)
+        {
+            ResponseResult<Pedidos> responseResult;
+
+            try
+            {
+
+                if (new PedidosBll().create(pedido))
+                    responseResult = new ResponseResult<Pedidos>() { State = true, Message = "Pedido Registrado correctamete" };
+                else
+                    responseResult = new ResponseResult<Pedidos>() { State = false, Message = "El Registro de Pedido no Fue posible" };
+            }
+            catch (Exception ex)
+            {
+                responseResult = new ResponseResult<Pedidos>() { State = false, Message = ex.Message };
+            }
+
+
+            return Json(responseResult, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

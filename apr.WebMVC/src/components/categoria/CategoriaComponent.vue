@@ -26,13 +26,13 @@
                             <tbody>
                                 <tr v-for="cat in categorias" :key="cat.Idcategoria">
                                     <td class="item-action" width="100">
-                                        <button type="button" @click="itemAction(cat,'show-item')" class="btn btn-sm btn-outline-info">
+                                        <button type="button" @click="itemAction(cat,itemTypeAction.show)" class="btn btn-sm btn-outline-info">
                                             <i class="fas fa-search-plus"></i>
                                         </button>
-                                        <button type="button" @click="itemAction(cat,'edit-item')" class="btn btn-sm btn-outline-primary">
+                                        <button type="button" @click="itemAction(cat,itemTypeAction.edit)" class="btn btn-sm btn-outline-primary">
                                             <i class="fas fa-marker"></i>
                                         </button>
-                                        <button type="button" @click="itemAction(cat,'delete-item')" class="btn btn-sm btn-outline-danger">
+                                        <button type="button" @click="itemAction(cat,itemTypeAction.delete)" class="btn btn-sm btn-outline-danger">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </td>
@@ -48,7 +48,7 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal fade" id="modalCategoria" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -89,6 +89,7 @@
         data(){
             return{
                 errors:[],
+                itemTypeAction:itemTypeAction,
                 titleForm:'Registrar Categoria',
                 isUpdate:false,
                 categorias:[],
@@ -120,13 +121,13 @@
             itemAction(item,type){
                 
                 switch (type) {
-                    case 'edit-item':
+                    case itemTypeAction.edit:
                         this.edit(item);
                         break;
-                    case 'show-item':
+                    case itemTypeAction.show:
                         
                         break;
-                    case 'delete-item':
+                    case itemTypeAction.delete:
                         this.removeData(item);
                         break;
                 }
@@ -212,11 +213,11 @@
                 })
             },
             openModal(){
-                $('#exampleModal').modal('show');
+                $('#modalCategoria').modal('show');
                 this.errors=[];
             },
             closeModal(){
-                $('#exampleModal').modal('hide');
+                $('#modalCategoria').modal('hide');
                 this.categoria = this.initializeCategoria();
             },
             initializeCategoria(){
